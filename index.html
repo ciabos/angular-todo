@@ -9,36 +9,36 @@
 		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body ng-controller="todoCtrl">
-		<input type="text" ng-model="data.message">
-		<h1>{{data.message}}</h1>
 		<section id="todoapp">
 			<header id="header">
 				<h1>todos</h1>
-				<input id="new-todo" type="text" placeholder="What needs to be done?" autofocus ng-model="todoText" ng-keyup="addTodo()">
+				<form ng-submit="addTodo()" id="todo-form">
+					<input id="new-todo" type="text" placeholder="What needs to be done?" ng-model="todoText" autofocus>
+				</form>
 			</header>
 			<!-- This section should be hidden by default and shown when there are todos -->
 			<section id="main">
-				<input id="toggle-all" type="checkbox">
+				<input id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="checkAll()">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul id="todo-list">
 					<!-- These are here just to show the structure of the list items -->
 					<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-					<li ng-repeat="todo in todos">
+					<li ng-repeat="todo in todos track by $index" ng-class="{done: todo.done}">
 						<div class="view">
-							<input class="toggle" type="checkbox" ng-model="todo.name">
-							<label>{{todo.name}}</label>
-							<button class="destroy"></button>
+							<input class="toggle" type="checkbox" ng-model="todo.done" ng-change="checkIfAllCompleted()">
+							<label ng-bind='todo.text'></label>
+							<button class="destroy" ng-click="removeTodo(todo)"></button>
 						</div>
-						<input class="edit" value="Create a TodoMVC template">
+						<!-- <input class="edit" value="Create a TodoMVC template"> -->
 					</li>
-					<li>
+					<!-- <li>
 						<div class="view">
 							<input class="toggle" type="checkbox">
 							<label>Buy a unicorn</label>
 							<button class="destroy"></button>
 						</div>
 						<input class="edit" value="Rule the web">
-					</li>
+					</li> -->
 				</ul>
 			</section>
 			<!-- This footer should hidden by default and shown when there are todos -->
@@ -71,8 +71,10 @@
 		</footer>
 		<!-- Scripts here. Don't remove ↓ -->
 		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/lodash/lodash.js"></script>
 		<script src="node_modules/todomvc-common/base.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/storage/todo.js"></script>
 		<script src="js/controllers/todoCtrl.js"></script>
 	</body>
 </html>

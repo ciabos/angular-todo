@@ -6,3 +6,7 @@ remove this comment if used
 remove this file if not
 
 */
+#todo-list li.done label {
+  color: #d9d9d9;
+  text-decoration: line-through;
+}
